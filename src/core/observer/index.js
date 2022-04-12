@@ -50,6 +50,7 @@ export class Observer {
       } else {
         copyAugment(value, arrayMethods, arrayKeys)
       }
+      // 如果数组里放的是对象，则需要观察数组里的对象
       this.observeArray(value)
     } else {
       this.walk(value)
