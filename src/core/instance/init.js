@@ -2,7 +2,7 @@
 
 import config from '../config'
 import { initProxy } from './proxy'
-import { initState } from './state'
+import { initState } from './state' // 状态初始化: 初始化顺序：props-methods-data-computed-watch
 import { initRender } from './render'
 import { initEvents } from './events'
 import { mark, measure } from '../util/perf'
@@ -54,6 +54,7 @@ export function initMixin (Vue: Class<Component>) {
     initRender(vm)
     callHook(vm, 'beforeCreate')
     initInjections(vm) // resolve injections before data/props
+    // guo: 初始化状态
     initState(vm)
     initProvide(vm) // resolve provide after data/props
     callHook(vm, 'created')

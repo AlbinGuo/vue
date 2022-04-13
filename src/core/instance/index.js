@@ -1,4 +1,3 @@
-// initMixin：在Vue原型上绑定_init初始化方法
 import { initMixin } from './init'
 import { stateMixin } from './state'
 import { renderMixin } from './render'
@@ -12,10 +11,11 @@ function Vue (options) {
   ) {
     warn('Vue is a constructor and should be called with the `new` keyword')
   }
-  // Vue初始化操作
+  // guo: Vue初始化操作
   this._init(options)
 }
 
+// guo: 将Vue函数传入initMixin，并在Vue原型上绑定_init初始化方法
 initMixin(Vue)
 stateMixin(Vue)
 eventsMixin(Vue)

@@ -52,6 +52,7 @@ export function initState (vm: Component) {
   if (opts.props) initProps(vm, opts.props)
   if (opts.methods) initMethods(vm, opts.methods)
   if (opts.data) {
+    // guo: 传递过来的data，此时data可能是函数，也可能是对象{}，但最终都要转为对象
     initData(vm)
   } else {
     observe(vm._data = {}, true /* asRootData */)
