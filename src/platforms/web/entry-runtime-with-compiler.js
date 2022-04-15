@@ -32,10 +32,13 @@ Vue.prototype.$mount = function (
   const options = this.$options
   // resolve template/el and convert to render function
   if (!options.render) {
+    // template模板最终还是会转换成render函数进行渲染
     let template = options.template
     if (template) {
       if (typeof template === 'string') {
+        // guo: 这块校验的是<script type='text/x-template'></script>
         if (template.charAt(0) === '#') {
+          // guo: 通过querySelector()获取template对应的element
           template = idToTemplate(template)
           /* istanbul ignore if */
           if (process.env.NODE_ENV !== 'production' && !template) {
@@ -45,7 +48,8 @@ Vue.prototype.$mount = function (
             )
           }
         }
-      } else if (template.nodeType) {
+        // 不做处理的情况：例如 template: `<div>{{msg}}</div>`
+      } else if (template.nodeType) { // guo: 如果template是一个dom节点, 例如document.querySelector('#app')
         template = template.innerHTML
       } else {
         if (process.env.NODE_ENV !== 'production') {
@@ -54,6 +58,7 @@ Vue.prototype.$mount = function (
         return this
       }
     } else if (el) {
+      // guo: 获取模板标签中<template></template>下的所有元素
       template = getOuterHTML(el)
     }
     if (template) {
