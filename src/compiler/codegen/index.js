@@ -40,6 +40,12 @@ export type CodegenResult = {
   staticRenderFns: Array<string>
 };
 
+/**
+ * guo: AST转为render函数
+ * @param {*} ast 
+ * @param {*} options 
+ * @returns 
+ */
 export function generate (
   ast: ASTElement | void,
   options: CompilerOptions
@@ -47,12 +53,19 @@ export function generate (
   const state = new CodegenState(options)
   // fix #11483, Root level <script> tags should not be rendered.
   const code = ast ? (ast.tag === 'script' ? 'null' : genElement(ast, state)) : '_c("div")'
+  console.log(code, 'code')
   return {
     render: `with(this){return ${code}}`,
     staticRenderFns: state.staticRenderFns
   }
 }
 
+/**
+ * guo: AST转为JavaScript原生代码
+ * @param {*} el 
+ * @param {*} state 
+ * @returns 
+ */
 export function genElement (el: ASTElement, state: CodegenState): string {
   if (el.parent) {
     el.pre = el.pre || el.parent.pre
