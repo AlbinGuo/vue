@@ -32,7 +32,7 @@ function isPrimitive (value) {
 
 /**
  * Quick object check - this is primarily used to tell
- * Objects from primitive values when we know the value
+ * objects from primitive values when we know the value
  * is a JSON-compliant type.
  */
 function isObject (obj) {
@@ -1150,6 +1150,7 @@ var Observer = function Observer (value) {
     } else {
       copyAugment(value, arrayMethods, arrayKeys);
     }
+    // 如果数组里放的是对象，则需要观察数组里的对象
     this.observeArray(value);
   } else {
     this.walk(value);
@@ -2113,7 +2114,7 @@ function transformNode (el, options) {
     }
   }
   if (staticClass) {
-    el.staticClass = JSON.stringify(staticClass);
+    el.staticClass = JSON.stringify(staticClass.replace(/\s+/g, ' ').trim());
   }
   var classBinding = getBindingAttr(el, 'class', false /* getStatic */);
   if (classBinding) {
@@ -3923,6 +3924,12 @@ var CodegenState = function CodegenState (options) {
 
 
 
+/**
+ * guo: AST转为render函数
+ * @param {*} ast 
+ * @param {*} options 
+ * @returns 
+ */
 function generate (
   ast,
   options
@@ -3930,12 +3937,19 @@ function generate (
   var state = new CodegenState(options);
   // fix #11483, Root level <script> tags should not be rendered.
   var code = ast ? (ast.tag === 'script' ? 'null' : genElement(ast, state)) : '_c("div")';
+  console.log(code, 'code');
   return {
     render: ("with(this){return " + code + "}"),
     staticRenderFns: state.staticRenderFns
   }
 }
 
+/**
+ * guo: AST转为JavaScript原生代码
+ * @param {*} el 
+ * @param {*} state 
+ * @returns 
+ */
 function genElement (el, state) {
   if (el.parent) {
     el.pre = el.pre || el.parent.pre;
