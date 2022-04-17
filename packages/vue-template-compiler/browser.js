@@ -1854,7 +1854,7 @@
   }
 
   /*  */
-
+  // {{ a }}
   var defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g;
   var regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g;
 

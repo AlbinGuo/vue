@@ -36,7 +36,19 @@ Vue.prototype.$mount = function (
     let template = options.template
     if (template) {
       if (typeof template === 'string') {
-        // guo: 这块校验的是<script type='text/x-template'></script>
+        /**
+         *  组件模板的抽离写法
+            <script type="text/x-template" id="cpn">
+              <div>这是一个组件</div>
+            </script>
+            
+            // vue实例中挂载注册为局部组件
+            components: {
+              cpn: {
+                template: '#cpn'
+              }
+
+         */
         if (template.charAt(0) === '#') {
           // guo: 通过querySelector()获取template对应的element
           template = idToTemplate(template)
